@@ -21,6 +21,7 @@ using Newtonsoft.Json.Serialization;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
+using RexLabsWifiShock;
 using Stylet;
 using StyletIoC;
 using System.ComponentModel;
@@ -32,7 +33,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
-
+using MK312WifiLibDotNet;
 namespace MultiFunPlayer;
 
 internal sealed class Bootstrapper : Bootstrapper<RootViewModel>
@@ -72,6 +73,10 @@ internal sealed class Bootstrapper : Bootstrapper<RootViewModel>
 
         builder.Bind<IScriptRepository>().ToAllImplementations().InSingletonScope();
         builder.Bind<IScriptRepositoryManager>().To<ScriptRepositoryManager>().InSingletonScope();
+        // Register MK312WifiLibDotNet components
+        builder.Bind<WifiComm>().ToSelf().InSingletonScope();
+        builder.Bind<MK312Device>().ToSelf().InSingletonScope();
+
     }
 
     protected override void Configure()
